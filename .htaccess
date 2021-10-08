@@ -1,0 +1,5 @@
+RewriteEngine On
+RewriteBase /
+
+RewriteRule ^(login|logout|profile)$ $1.php [R=301,L]
+RewriteRule ^([0-9A-Za-z-]+)/?$ /index.php?url=$1 [L,QSA]
