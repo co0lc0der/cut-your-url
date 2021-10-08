@@ -109,3 +109,7 @@ function register_user($auth_data) {
 
 	return true;
 }
+
+function get_user_links($user_id) {
+	return db_query("SELECT * FROM `links` WHERE `user_id` = '$user_id'")->fetchAll();
+}
