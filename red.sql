@@ -47,8 +47,8 @@ TRUNCATE TABLE `links`;
 INSERT INTO `links` (`id`, `user_id`, `short_link`, `long_link`, `views`) VALUES
 (1, 1, 'wow', 'https://ya.ru', 4),
 (2, 1, 'asdasd', 'https://google.ru', 1),
-(3, 1, 'jfatn1v9', 'https://vk.com', 1),
-(4, 1, '80wf1pov', 'https://www.instagram.com', 1);
+(3, 1, 'jfatn1v9', 'https://vk.com', 2),
+(4, 2, '80wf1pov', 'https://www.instagram.com', 2);
 
 -- --------------------------------------------------------
 
@@ -75,7 +75,7 @@ TRUNCATE TABLE `users`;
 
 INSERT INTO `users` (`id`, `login`, `pass`, `banned`) VALUES
 (1, 'asd', '$2y$10$wEcEQtPYpU8v7t2NVB7mIufhesmfMoPrR.cShJuQzJKM65yk24jpK', 0),
-(3, 'qwe', '$2y$10$VE1nRY1MDX2qbs0kORKo8OIylhppX2kTge9q2qw8Sku0bCa2blMeu', 0);
+(2, 'qwe', '$2y$10$VE1nRY1MDX2qbs0kORKo8OIylhppX2kTge9q2qw8Sku0bCa2blMeu', 0);
 
 --
 -- Индексы сохранённых таблиц
@@ -110,7 +110,7 @@ ALTER TABLE `links`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
