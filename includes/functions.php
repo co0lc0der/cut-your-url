@@ -146,3 +146,8 @@ function generatePasswd($numAlpha = 6, $numNonAlpha = 2) {
 		substr(str_shuffle($listNonAlpha), 0, $numNonAlpha)
 	);
 }
+
+function add_link($user_id, $link) {
+	$short_link = generate2(URL_CHARS);
+	return db_query("INSERT INTO `links` (`id`, `user_id`, `short_link`, `long_link`) VALUES (NULL, $user_id, '$short_link', '$link');", true);
+}
