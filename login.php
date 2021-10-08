@@ -25,7 +25,14 @@
 ?>
 	<main class="container">
 		<?php if (!empty($success)) { ?>
-			<div class="alert alert-success mt-3" role="alert"><?=$success?></div>
+			<div class="alert alert-success alert-dismissible fade show mt-3" role="alert"><?=$success?>
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+		<?php } ?>
+		<?php if (!empty($error)) { ?>
+			<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert"><?=$error?>
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
 		<?php } ?>
 		<div class="row mt-5">
 			<div class="col">
@@ -43,9 +50,6 @@
 					<div class="mb-3">
 						<label for="password-input" class="form-label">Пароль</label>
 						<input type="password" class="form-control <?=!empty($error) ? 'is-invalid' : '';?>" id="password-input" name="pass" required>
-						<?php if (!empty($error)) { ?>
-							<div class="invalid-feedback"><?=$error?></div>
-						<?php } ?>
 					</div>
 					<button type="submit" class="btn btn-primary">Войти</button>
 				</form>

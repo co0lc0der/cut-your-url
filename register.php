@@ -8,17 +8,23 @@
 	include 'includes/header.php';
 
 	$login = '';
-	$error = '';
 	if (isset($_SESSION['login'])) {
 		$login = $_SESSION['login'];
 		$_SESSION['login'] = '';
 	}
+
+	$error = '';
 	if (isset($_SESSION['message']) && !empty($_SESSION['message'])) {
 		$error = $_SESSION['message'];
 		$_SESSION['message'] = '';
 	}
 ?>
 	<main class="container">
+		<?php if (!empty($error)) { ?>
+			<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert"><?=$error?>
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+		<?php } ?>
 		<div class="row mt-5">
 			<div class="col">
 				<h2 class="text-center">Регистрация</h2>
@@ -39,9 +45,6 @@
 					<div class="mb-3">
 						<label for="password-input2" class="form-label">Пароль еще раз</label>
 						<input type="password" class="form-control <?=!empty($error) ? 'is-invalid' : '';?>" id="password-input2" name="pass2" required>
-						<?php if (!empty($error)) { ?>
-							<div class="invalid-feedback"><?=$error?></div>
-						<?php } ?>
 					</div>
 					<button type="submit" class="btn btn-primary">Зарегистрироваться</button>
 				</form>

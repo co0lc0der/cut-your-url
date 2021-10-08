@@ -4,9 +4,31 @@
 
 	$links = get_user_links($_SESSION['user']['id']);
 
+	$success = '';
+	if (isset($_SESSION['success']) && !empty($_SESSION['success'])) {
+		$success = $_SESSION['success'];
+		$_SESSION['success'] = '';
+	}
+
+	$error = '';
+	if (isset($_SESSION['message']) && !empty($_SESSION['message'])) {
+		$error = $_SESSION['message'];
+		$_SESSION['message'] = '';
+	}
+
 	include 'includes/header.php';
 ?>
 	<main class="container">
+		<?php if (!empty($success)) { ?>
+			<div class="alert alert-success alert-dismissible fade show mt-3" role="alert"><?=$success?>
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+		<?php } ?>
+		<?php if (!empty($error)) { ?>
+			<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert"><?=$error?>
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+		<?php } ?>
 		<div class="row mt-5">
 			<?php if ($links) { ?>
 				<table class="table table-striped">
