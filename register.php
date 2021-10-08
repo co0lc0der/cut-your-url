@@ -1,4 +1,23 @@
-<?php include 'includes/header.php'; ?>
+<?php
+	require_once 'includes/functions.php';
+
+	if (isset($_SESSION['user']['id'])) header('Location: /profile.php');
+
+	if (isset($_POST['login']) && isset($_POST['pass']) && isset($_POST['pass2'])) register_user($_POST);
+
+	include 'includes/header.php';
+
+	$login = '';
+	$error = '';
+	if (isset($_SESSION['login'])) {
+		$login = $_SESSION['login'];
+		$_SESSION['login'] = '';
+	}
+	if (isset($_SESSION['message']) && !empty($_SESSION['message'])) {
+		$error = $_SESSION['message'];
+		$_SESSION['message'] = '';
+	}
+?>
 	<main class="container">
 		<div class="row mt-5">
 			<div class="col">
@@ -8,21 +27,21 @@
 		</div>
 		<div class="row mt-3">
 			<div class="col-4 offset-4">
-				<form>
+				<form action="" method="post">
 					<div class="mb-3">
 						<label for="login-input" class="form-label">Логин</label>
-						<input type="text" class="form-control is-valid" id="login-input" required>
-						<div class="valid-feedback">Все ок</div>
+						<input type="text" class="form-control <?=!empty($error) ? 'is-invalid' : '';?>" id="login-input" name="login" required value="<?=$login?>">
 					</div>
 					<div class="mb-3">
 						<label for="password-input" class="form-label">Пароль</label>
-						<input type="password" class="form-control is-invalid" id="password-input" required>
-						<div class="invalid-feedback">А тут не ок</div>
+						<input type="password" class="form-control <?=!empty($error) ? 'is-invalid' : '';?>" id="password-input" name="pass" required>
 					</div>
 					<div class="mb-3">
 						<label for="password-input2" class="form-label">Пароль еще раз</label>
-						<input type="password" class="form-control is-invalid" id="password-input2" required>
-						<div class="invalid-feedback">И тут тоже не ок</div>
+						<input type="password" class="form-control <?=!empty($error) ? 'is-invalid' : '';?>" id="password-input2" name="pass2" required>
+						<?php if (!empty($error)) { ?>
+							<div class="invalid-feedback"><?=$error?></div>
+						<?php } ?>
 					</div>
 					<button type="submit" class="btn btn-primary">Зарегистрироваться</button>
 				</form>

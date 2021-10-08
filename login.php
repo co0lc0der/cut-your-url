@@ -9,6 +9,7 @@
 
 	$login = '';
 	$error = '';
+	$success = '';
 	if (isset($_SESSION['login'])) {
 		$login = $_SESSION['login'];
 		$_SESSION['login'] = '';
@@ -17,8 +18,15 @@
 		$error = $_SESSION['message'];
 		$_SESSION['message'] = '';
 	}
+	if (isset($_SESSION['success']) && !empty($_SESSION['success'])) {
+		$success = $_SESSION['success'];
+		$_SESSION['success'] = '';
+	}
 ?>
 	<main class="container">
+		<?php if (!empty($success)) { ?>
+			<div class="alert alert-success mt-3" role="alert"><?=$success?></div>
+		<?php } ?>
 		<div class="row mt-5">
 			<div class="col">
 				<h2 class="text-center">Вход в личный кабинет</h2>
@@ -31,13 +39,13 @@
 					<div class="mb-3">
 						<label for="login-input" class="form-label">Логин</label>
 						<input type="text" class="form-control <?=!empty($error) ? 'is-invalid' : '';?>" id="login-input" name="login" required value="<?=$login?>">
-						<?php if (!empty($error)) { ?>
-							<div class="invalid-feedback"><?=$error?></div>
-						<?php } ?>
 					</div>
 					<div class="mb-3">
 						<label for="password-input" class="form-label">Пароль</label>
 						<input type="password" class="form-control <?=!empty($error) ? 'is-invalid' : '';?>" id="password-input" name="pass" required>
+						<?php if (!empty($error)) { ?>
+							<div class="invalid-feedback"><?=$error?></div>
+						<?php } ?>
 					</div>
 					<button type="submit" class="btn btn-primary">Войти</button>
 				</form>

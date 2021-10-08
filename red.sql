@@ -1,13 +1,12 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Хост: 127.0.0.1:3306
--- Версия сервера: 5.6.43
--- Версия PHP: 7.3.2
+-- Хост: localhost
+-- Версия сервера: 5.7.35-0ubuntu0.18.04.2
+-- Версия PHP: 8.0.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -46,7 +45,10 @@ TRUNCATE TABLE `links`;
 --
 
 INSERT INTO `links` (`id`, `user_id`, `short_link`, `long_link`, `views`) VALUES
-(1, 1, 'wow', 'http://ya.ru', 0);
+(1, 1, 'wow', 'https://ya.ru', 4),
+(2, 1, 'asdasd', 'https://google.ru', 1),
+(3, 1, 'jfatn1v9', 'https://vk.com', 1),
+(4, 1, '80wf1pov', 'https://www.instagram.com', 1);
 
 -- --------------------------------------------------------
 
@@ -72,7 +74,8 @@ TRUNCATE TABLE `users`;
 --
 
 INSERT INTO `users` (`id`, `login`, `pass`, `banned`) VALUES
-(1, 'asd', '7815696ecbf1c96e6894b779456d330e', 0);
+(1, 'asd', '$2y$10$wEcEQtPYpU8v7t2NVB7mIufhesmfMoPrR.cShJuQzJKM65yk24jpK', 0),
+(3, 'qwe', '$2y$10$VE1nRY1MDX2qbs0kORKo8OIylhppX2kTge9q2qw8Sku0bCa2blMeu', 0);
 
 --
 -- Индексы сохранённых таблиц
@@ -90,7 +93,8 @@ ALTER TABLE `links`
 -- Индексы таблицы `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `login` (`login`);
 
 --
 -- AUTO_INCREMENT для сохранённых таблиц
@@ -100,13 +104,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `links`
 --
 ALTER TABLE `links`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц

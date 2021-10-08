@@ -64,8 +64,7 @@ function login($auth_data) {
 		die;
 	}
 
-	//if (password_verify($auth_data['pass'], $user['pass'])) {
-	if (md5($auth_data['pass']) == $user['pass']) {
+	if (password_verify($auth_data['pass'], $user['pass'])) {
 		$_SESSION['user'] = $user;
 
 		$_SESSION['message'] = '';
@@ -77,4 +76,36 @@ function login($auth_data) {
 		header('Location: /login.php');
 		die;
 	}
+}
+
+function add_user($login, $pass) {
+	$hash = password_hash($pass, PASSWORD_DEFAULT);
+	return db_query("INSERT INTO `users` (`id`, `login`, `pass`) VALUES (NULL, '$login', '$hash');", true);
+}
+
+function register_user($auth_data) {
+	if (empty($auth_data) || !isset($auth_data['login']) || !isset($auth_data['pass']) || !isset($auth_data['pass2'])) return false;
+
+	$user = get_user_info($auth_data['login']);
+	$_SESSION['login'] = $auth_data['login'];
+
+	if (!empty($user)) {
+		$_SESSION['message'] = "Пользователь '{$auth_data['login']}' уже существует";
+		header('Location: /register.php');
+		die;
+	}
+
+	if ($auth_data['pass'] !== $auth_data['pass2']) {
+		$_SESSION['message'] = "Пароли не совпадают";
+		header('Location: /register.php');
+		die;
+	}
+
+	if (add_user($auth_data['login'], $auth_data['pass'])) {
+		$_SESSION['success'] = 'Регистрация прошла успешно!';
+		header('Location: /login.php');
+		die;
+	}
+
+	return true;
 }
