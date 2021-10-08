@@ -1,6 +1,5 @@
 <?php
-	include 'includes/config.php';
-	include 'includes/functions.php';
+	require_once 'includes/functions.php';
 ?>
 <!doctype html>
 <html lang="ru">

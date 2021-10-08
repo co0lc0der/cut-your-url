@@ -9,17 +9,17 @@
 	</div>
 	<div class="row mt-5">
 		<div class="col">
-			<h2 class="text-center">Пользователей в системе: 100</h2>
+			<h2 class="text-center">Пользователей в системе: <?=get_users_count()?></h2>
 		</div>
 	</div>
 	<div class="row mt-5">
 		<div class="col">
-			<h2 class="text-center">Ссылок в системе: 200</h2>
+			<h2 class="text-center">Ссылок в системе: <?=get_links_count()?></h2>
 		</div>
 	</div>
 	<div class="row mt-5">
 		<div class="col">
-			<h2 class="text-center">Всего переходов по ссылкам: 300</h2>
+			<h2 class="text-center">Всего переходов по ссылкам: <?=get_views_count()?></h2>
 		</div>
 	</div>
 </main>
