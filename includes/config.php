@@ -9,4 +9,6 @@ define('DB_NAME', "red"); // имя БД
 define('DB_USER', "root"); // логин к БД
 define('DB_PASS', "4321"); // пароль к БД
 
+define('URL_CHARS', 'abcdefghijklmnopqrstuvwxyz0123456789-');
+
 session_start();

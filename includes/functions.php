@@ -117,3 +117,32 @@ function get_user_links($user_id) {
 function delete_link($link_id) {
 	return db_query("DELETE FROM `links` WHERE `id` = $link_id LIMIT 1;", true);
 }
+
+function generate1($template, $length = 8) {
+	$numChars = strlen($template);
+	$string = '';
+	for($i = 0; $i < $length; $i++){
+		$string .= substr($template, random_int(1, $numChars) - 1, 1);
+	}
+	return $string;
+}
+
+function generate2($template, $length = 8) {
+	$string = str_shuffle($template);
+	$numChars = strlen($template);
+	if ($length <= $numChars) {
+		$string = substr($string, random_int(0, $numChars - $length), $length);
+		//} else {
+		//	$string = substr($template, rand(1, $numChars) - 1, $length);
+	}
+	return $string;
+}
+
+function generatePasswd($numAlpha = 6, $numNonAlpha = 2) {
+	$listAlpha = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+	$listNonAlpha = ',;:!?.$/*-+&@_+;./*&?$-!,';
+	return str_shuffle(
+		substr(str_shuffle($listAlpha), 0, $numAlpha) .
+		substr(str_shuffle($listNonAlpha), 0, $numNonAlpha)
+	);
+}
