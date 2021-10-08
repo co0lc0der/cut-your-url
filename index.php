@@ -1,4 +1,21 @@
 <?php
+	if(isset($_GET['url']) && !empty($_GET['url'])) {
+		require_once 'includes/functions.php';
+
+		$url = strtolower(trim($_GET['url']));
+		$link = get_link_info($url);
+
+		if (empty($link)) {
+			http_response_code(404);
+			header('Location: 404.php');
+			die;
+		}
+
+		update_views($url);
+		header('Location: ' . $link['long_link']);
+		die;
+	}
+
 	include 'includes/header.php';
 ?>
 <main class="container">

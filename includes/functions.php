@@ -21,8 +21,12 @@ function db() {
 	}
 }
 
-function db_query($query) {
-	return db()->query($query);
+function db_query($query, $exec = false) {
+	if ($exec) {
+		return db()->exec($query);
+	} else {
+		return db()->query($query);
+	}
 }
 
 function get_users_count() {
@@ -35,4 +39,12 @@ function get_links_count() {
 
 function get_views_count() {
 	return db_query("SELECT SUM(`views`) FROM `links`;")->fetchColumn();
+}
+
+function get_link_info($url) {
+	return db_query("SELECT * FROM `links` WHERE `short_link` = '$url' LIMIT 1;")->fetch();
+}
+
+function update_views($url) {
+	return db_query("UPDATE `links` SET `views` = `views` + 1 WHERE `short_link` = '$url' LIMIT 1;", true);
 }
