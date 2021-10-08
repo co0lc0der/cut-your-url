@@ -20,6 +20,12 @@
 ?>
 	<main class="container">
 		<div class="row mt-5">
+			<div class="col">
+				<h2 class="text-center">Вход в личный кабинет</h2>
+				<p class="text-center">Если вы еще не зарегистрированы, то самое время <a href="<?=get_url('/register.php')?>">зарегистрироваться</a></p>
+			</div>
+		</div>
+		<div class="row mt-3">
 			<div class="col-4 offset-4">
 				<form action="" method="post">
 					<div class="mb-3">

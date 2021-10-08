@@ -1,6 +1,12 @@
 <?php include 'includes/header.php'; ?>
 	<main class="container">
 		<div class="row mt-5">
+			<div class="col">
+				<h2 class="text-center">Регистрация</h2>
+				<p class="text-center">Если у вас уже есть логин и пароль, <a href="<?=get_url('/login.php')?>">войдите на сайт</a></p>
+			</div>
+		</div>
+		<div class="row mt-3">
 			<div class="col-4 offset-4">
 				<form>
 					<div class="mb-3">
