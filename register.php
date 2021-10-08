@@ -4,8 +4,8 @@
 			<div class="col-4 offset-4">
 				<form>
 					<div class="mb-3">
-						<label for="login-input" class="form-label is-valid">Логин</label>
-						<input type="text" class="form-control" id="login-input" required>
+						<label for="login-input" class="form-label">Логин</label>
+						<input type="text" class="form-control is-valid" id="login-input" required>
 						<div class="valid-feedback">Все ок</div>
 					</div>
 					<div class="mb-3">

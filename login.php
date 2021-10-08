@@ -1,17 +1,37 @@
-<?php include 'includes/header.php'; ?>
+<?php
+	require_once 'includes/functions.php';
+
+	if (isset($_SESSION['user']['id'])) header('Location: /profile.php');
+
+	if (isset($_POST['login']) && isset($_POST['pass'])) login($_POST);
+
+	include 'includes/header.php';
+
+	$login = '';
+	$error = '';
+	if (isset($_SESSION['login'])) {
+		$login = $_SESSION['login'];
+		$_SESSION['login'] = '';
+	}
+	if (isset($_SESSION['message']) && !empty($_SESSION['message'])) {
+		$error = $_SESSION['message'];
+		$_SESSION['message'] = '';
+	}
+?>
 	<main class="container">
 		<div class="row mt-5">
 			<div class="col-4 offset-4">
-				<form>
+				<form action="" method="post">
 					<div class="mb-3">
-						<label for="login-input" class="form-label is-valid">Логин</label>
-						<input type="text" class="form-control" id="login-input" required>
-						<div class="valid-feedback">Все ок</div>
+						<label for="login-input" class="form-label">Логин</label>
+						<input type="text" class="form-control <?=!empty($error) ? 'is-invalid' : '';?>" id="login-input" name="login" required value="<?=$login?>">
+						<?php if (!empty($error)) { ?>
+							<div class="invalid-feedback"><?=$error?></div>
+						<?php } ?>
 					</div>
 					<div class="mb-3">
 						<label for="password-input" class="form-label">Пароль</label>
-						<input type="password" class="form-control is-invalid" id="password-input" required>
-						<div class="invalid-feedback">А тут не ок</div>
+						<input type="password" class="form-control <?=!empty($error) ? 'is-invalid' : '';?>" id="password-input" name="pass" required>
 					</div>
 					<button type="submit" class="btn btn-primary">Войти</button>
 				</form>

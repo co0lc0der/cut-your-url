@@ -19,11 +19,13 @@
 	include 'includes/header.php';
 ?>
 <main class="container">
-	<div class="row mt-5">
-		<div class="col">
-			<h2 class="text-center">Необходимо <a href="<?=get_url('/register.php')?>">зарегистрироваться</a> или <a href="<?=get_url('/login.php')?>">войти</a> под своей учетной записью</h2>
+	<?php if (!isset($_SESSION['user']['id'])) { ?>
+		<div class="row mt-5">
+			<div class="col">
+				<h2 class="text-center">Необходимо <a href="<?=get_url('/register.php')?>">зарегистрироваться</a> или <a href="<?=get_url('/login.php')?>">войти</a> под своей учетной записью</h2>
+			</div>
 		</div>
-	</div>
+	<?php } ?>
 	<div class="row mt-5">
 		<div class="col">
 			<h2 class="text-center">Пользователей в системе: <?=get_users_count()?></h2>

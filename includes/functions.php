@@ -8,8 +8,7 @@ function get_url($page = '') {
 function db() {
 	try {
 		return new PDO("mysql:host=" . DB_HOST . "; dbname=" . DB_NAME . "; charset=utf8",
-			DB_USER,
-			DB_PASS,
+			DB_USER, DB_PASS,
 			[
 				PDO::ATTR_EMULATE_PREPARES => false,
 				PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -47,4 +46,35 @@ function get_link_info($url) {
 
 function update_views($url) {
 	return db_query("UPDATE `links` SET `views` = `views` + 1 WHERE `short_link` = '$url' LIMIT 1;", true);
+}
+
+function get_user_info($login) {
+	return db_query("SELECT * FROM `users` WHERE `login` = '$login' LIMIT 1;")->fetch();
+}
+
+function login($auth_data) {
+	if (empty($auth_data) || !isset($auth_data['login']) || !isset($auth_data['pass'])) return false;
+
+	$user = get_user_info($auth_data['login']);
+
+	if (empty($user)) {
+		$_SESSION['login'] = $auth_data['login'];
+		$_SESSION['message'] = "Пользователь '{$auth_data['login']}' не найден";
+		header('Location: /login.php');
+		die;
+	}
+
+	//if (password_verify($auth_data['pass'], $user['pass'])) {
+	if (md5($auth_data['pass']) == $user['pass']) {
+		$_SESSION['user'] = $user;
+
+		$_SESSION['message'] = '';
+		header('Location: /profile.php');
+		die;
+	} else {
+		$_SESSION['login'] = $auth_data['login'];
+		$_SESSION['message'] = 'Неверный пароль';
+		header('Location: /login.php');
+		die;
+	}
 }

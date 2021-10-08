@@ -1,5 +1,8 @@
 <?php
 	require_once 'includes/functions.php';
+
+	$home = true;
+	if ($_SERVER['PHP_SELF'] == '/profile.php') $home = false;
 ?>
 <!doctype html>
 <html lang="ru">
@@ -23,18 +26,18 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					<li class="nav-item">
-						<a class="nav-link active" aria-current="page" href="<?=get_url()?>">Главная</a>
+						<a class="nav-link <?=$home ? 'active' : '';?>" aria-current="page" href="<?=get_url()?>">Главная</a>
 					</li>
 					<?php if (isset($_SESSION['user']['id'])) { ?>
 						<li class="nav-item">
-							<a class="nav-link active" href="<?=get_url('/profile.php')?>">Профиль</a>
+							<a class="nav-link <?=!$home ? 'active' : '';?>" href="<?=get_url('/profile.php')?>">Профиль</a>
 						</li>
 					<?php } ?>
 				</ul>
 				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 					<li class="nav-item">
 						<?php if (isset($_SESSION['user']['id'])) { ?>
-							<a href="<?=get_url('/logout.php')?>" class="btn btn-primary">Выйти</a>
+							<a href="<?=get_url('/includes/logout.php')?>" class="btn btn-primary">Выйти</a>
 						<?php } else { ?>
 							<a href="<?=get_url('/login.php')?>" class="btn btn-primary">Войти</a>
 						<?php } ?>

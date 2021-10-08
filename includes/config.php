@@ -8,3 +8,5 @@ define('DB_HOST', "127.0.0.1"); // сервер БД
 define('DB_NAME', "red"); // имя БД
 define('DB_USER', "root"); // логин к БД
 define('DB_PASS', "4321"); // пароль к БД
+
+session_start();
