@@ -113,3 +113,7 @@ function register_user($auth_data) {
 function get_user_links($user_id) {
 	return db_query("SELECT * FROM `links` WHERE `user_id` = '$user_id'")->fetchAll();
 }
+
+function delete_link($link_id) {
+	return db_query("DELETE FROM `links` WHERE `id` = $link_id LIMIT 1;", true);
+}
