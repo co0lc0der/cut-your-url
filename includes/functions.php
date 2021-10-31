@@ -20,20 +20,25 @@ function db() {
 	}
 }
 
-function db_query($query, $exec = false) {
-	if ($exec) {
-		return db()->exec($query);
+function db_query($sql = "", $fields = []) {
+	if (empty($sql)) return false;
+
+	$result = db()->prepare($sql);
+	if ($fields) {
+		$result->execute($fields);
 	} else {
-		return db()->query($query);
+		$result->execute();
 	}
+
+	return $result;
 }
 
 function get_users_count() {
-	return db_query("SELECT COUNT(`id`) as `num` FROM `users`;")->fetchColumn();
+	return db_query("SELECT COUNT(`id`) FROM `users`;")->fetchColumn();
 }
 
 function get_links_count() {
-	return db_query("SELECT COUNT(`id`) as `num` FROM `links`;")->fetchColumn();
+	return db_query("SELECT COUNT(`id`) FROM `links`;")->fetchColumn();
 }
 
 function get_views_count() {
@@ -41,25 +46,35 @@ function get_views_count() {
 }
 
 function get_link_info($url) {
-	return db_query("SELECT * FROM `links` WHERE `short_link` = '$url' LIMIT 1;")->fetch();
+	if (empty($url)) return [];
+
+	return db_query("SELECT * FROM `links` WHERE `short_link` = ?;", [$url])->fetch();
 }
 
 function update_views($url) {
-	return db_query("UPDATE `links` SET `views` = `views` + 1 WHERE `short_link` = '$url' LIMIT 1;", true);
+	if (empty($url)) return false;
+
+	return db_query("UPDATE `links` SET `views` = `views` + 1 WHERE `short_link` = ?;", [$url]);
 }
 
 function get_user_info($login) {
-	return db_query("SELECT * FROM `users` WHERE `login` = '$login' LIMIT 1;")->fetch();
+	if (empty($login)) return [];
+
+	return db_query("SELECT * FROM `users` WHERE `login` = :login;", ['login' => $login])->fetch();
 }
 
 function login($auth_data) {
-	if (empty($auth_data) || !isset($auth_data['login']) || !isset($auth_data['pass'])) return false;
+	if (empty($auth_data) || !isset($auth_data['login']) || empty($auth_data['login']) || !isset($auth_data['pass']) || empty($auth_data['pass'])) {
+		$_SESSION['error'] = "Логин или пароль не может быть пустым";
+		header('Location: ' . get_url('login.php'));
+		die;
+	}
 
 	$user = get_user_info($auth_data['login']);
 
 	if (empty($user)) {
 		$_SESSION['login'] = $auth_data['login'];
-		$_SESSION['message'] = "Пользователь '{$auth_data['login']}' не найден";
+		$_SESSION['error'] = "Пользователь '{$auth_data['login']}' не найден";
 		header('Location: /login.php');
 		die;
 	}
@@ -67,36 +82,37 @@ function login($auth_data) {
 	if (password_verify($auth_data['pass'], $user['pass'])) {
 		$_SESSION['user'] = $user;
 
-		$_SESSION['message'] = '';
+		$_SESSION['error'] = '';
 		header('Location: /profile.php');
 		die;
 	} else {
 		$_SESSION['login'] = $auth_data['login'];
-		$_SESSION['message'] = 'Неверный пароль';
+		$_SESSION['error'] = 'Неверный пароль';
 		header('Location: /login.php');
 		die;
 	}
 }
 
 function add_user($login, $pass) {
-	$hash = password_hash($pass, PASSWORD_DEFAULT);
-	return db_query("INSERT INTO `users` (`id`, `login`, `pass`) VALUES (NULL, '$login', '$hash');", true);
+	$password = password_hash($pass, PASSWORD_DEFAULT);
+
+	return db_query("INSERT INTO `users` (`id`, `login`, `pass`) VALUES (NULL, ?, ?);", [$login, $password]);
 }
 
 function register_user($auth_data) {
-	if (empty($auth_data) || !isset($auth_data['login']) || !isset($auth_data['pass']) || !isset($auth_data['pass2'])) return false;
+	if (empty($auth_data) || !isset($auth_data['login']) || empty($auth_data['login']) || !isset($auth_data['pass']) || !isset($auth_data['pass2'])) return false;
 
 	$user = get_user_info($auth_data['login']);
 	$_SESSION['login'] = $auth_data['login'];
 
 	if (!empty($user)) {
-		$_SESSION['message'] = "Пользователь '{$auth_data['login']}' уже существует";
+		$_SESSION['error'] = "Пользователь '{$auth_data['login']}' уже существует";
 		header('Location: /register.php');
 		die;
 	}
 
 	if ($auth_data['pass'] !== $auth_data['pass2']) {
-		$_SESSION['message'] = "Пароли не совпадают";
+		$_SESSION['error'] = "Пароли не совпадают";
 		header('Location: /register.php');
 		die;
 	}
@@ -111,11 +127,15 @@ function register_user($auth_data) {
 }
 
 function get_user_links($user_id) {
-	return db_query("SELECT * FROM `links` WHERE `user_id` = '$user_id'")->fetchAll();
+	if (empty($user_id)) return [];
+
+	return db_query("SELECT * FROM `links` WHERE `user_id` = ?;", [$user_id])->fetchAll();
 }
 
-function delete_link($link_id) {
-	return db_query("DELETE FROM `links` WHERE `id` = $link_id LIMIT 1;", true);
+function delete_link($id) {
+	if (empty($id)) return false;
+
+	return db_query("DELETE FROM `links` WHERE `id` = ?;", [$id]);
 }
 
 function generate1($template, $length = 8) {
@@ -147,7 +167,12 @@ function generatePasswd($numAlpha = 6, $numNonAlpha = 2) {
 	);
 }
 
+function generate_string($size = 6) {
+	$new_string = str_shuffle(URL_CHARS);
+	return substr($new_string, 0, $size);
+}
+
 function add_link($user_id, $link) {
-	$short_link = generate2(URL_CHARS);
-	return db_query("INSERT INTO `links` (`id`, `user_id`, `short_link`, `long_link`) VALUES (NULL, $user_id, '$short_link', '$link');", true);
+	$short_link = generate_string();
+	return db_query("INSERT INTO `links` (`id`, `user_id`, `long_link`, `short_link`, `views`) VALUES (NULL, ?, ?, ?, '0');", [$user_id, $link, $short_link]);
 }

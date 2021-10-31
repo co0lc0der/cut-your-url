@@ -3,3 +3,5 @@ RewriteEngine On
 
 #RewriteRule ^(login|logout|profile)$ /$1.php [R=301,L]
 RewriteRule ^([0-9A-Za-z-]+)/?$ /index.php?url=$1 [L,QSA]
+#если в подпапке cut_your_url
+#RewriteRule ^([0-9A-Za-z-]+)/?$ /cut_your_url/index.php?url=$1 [L,QSA]

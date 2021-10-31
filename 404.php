@@ -1,4 +1,4 @@
-<?php include 'includes/header.php'; ?>
+<?php include_once 'includes/header.php'; ?>
 	<main class="container">
 		<div class="row mt-5">
 			<div class="col">

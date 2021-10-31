@@ -14,9 +14,9 @@
 		$login = $_SESSION['login'];
 		$_SESSION['login'] = '';
 	}
-	if (isset($_SESSION['message']) && !empty($_SESSION['message'])) {
-		$error = $_SESSION['message'];
-		$_SESSION['message'] = '';
+	if (isset($_SESSION['error']) && !empty($_SESSION['error'])) {
+		$error = $_SESSION['error'];
+		$_SESSION['error'] = '';
 	}
 	if (isset($_SESSION['success']) && !empty($_SESSION['success'])) {
 		$success = $_SESSION['success'];
