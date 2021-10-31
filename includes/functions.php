@@ -207,3 +207,23 @@ function show_message($message, $type = 'danger') {
 function logged_in() {
 	return isset($_SESSION['user']['id']) && !empty($_SESSION['user']['id']);
 }
+
+function is_owner_link($link_id) {
+	if (empty($link_id)) return false;
+
+	if (logged_in()){
+		$user_id = db_query("SELECT `user_id` FROM `links` WHERE `id` = ?;", [$link_id])->fetchColumn();
+
+		if ($user_id == $_SESSION['user']['id']) return true;
+	}
+
+	$_SESSION['error'] = "Айяйяй! Не хорошо так делать!";
+	return false;
+}
+
+function edit_link($link_id, $new_link){
+	if(empty($link_id) || empty($new_link)) return false;
+
+	$_SESSION['success'] = 'Ссылка успешно отредактирована';
+	return db_query("UPDATE `links` SET `long_link` = ? WHERE `id` = ?;", [$new_link, $link_id]);
+}

@@ -28,7 +28,7 @@
 					</li>
 				</ul>
 				<form class="d-flex" action="<?=get_url('includes/add.php')?>" method="post">
-					<input type="hidden" name="user_id" value="<?=$_SESSION['user']['id']?>">
+<!--					<input type="hidden" name="user_id" value="--><?//=$_SESSION['user']['id']?><!--">-->
 					<input class="form-control me-2" type="text" placeholder="Ссылка" aria-label="Ссылка" name="link">
 					<button class="btn btn-success" type="submit"><i class="bi bi-plus-lg"></i></button>
 				</form>
