@@ -103,11 +103,12 @@ function add_user($login, $pass) {
 function register_user($auth_data) {
 	if (empty($auth_data) || !isset($auth_data['login']) || empty($auth_data['login']) || !isset($auth_data['pass']) || !isset($auth_data['pass2'])) return false;
 
-	$user = get_user_info($auth_data['login']);
-	$_SESSION['login'] = $auth_data['login'];
+	$login = trim($auth_data['login']);
+	$user = get_user_info($login);
+	$_SESSION['login'] = $login;
 
 	if (!empty($user)) {
-		$_SESSION['error'] = "Пользователь '{$auth_data['login']}' уже существует";
+		$_SESSION['error'] = "Пользователь '{$login}' уже существует";
 		redirect(get_url('register.php'));
 	}
 
@@ -116,7 +117,7 @@ function register_user($auth_data) {
 		redirect(get_url('register.php'));
 	}
 
-	if (add_user($auth_data['login'], $auth_data['pass'])) {
+	if (add_user($login, $auth_data['pass'])) {
 		$_SESSION['success'] = 'Регистрация прошла успешно!';
 		redirect(get_url('login.php'));
 	}
@@ -180,7 +181,7 @@ function get_success_message() {
 	$success = '';
 	if (isset($_SESSION['success']) && !empty($_SESSION['success'])) {
 		$success = $_SESSION['success'];
-		$_SESSION['success'] = '';
+		unset($_SESSION['success']);
 	}
 
 	return $success;
@@ -190,7 +191,7 @@ function get_error_message() {
 	$error = '';
 	if (isset($_SESSION['error']) && !empty($_SESSION['error'])) {
 		$error = $_SESSION['error'];
-		$_SESSION['error'] = '';
+		unset($_SESSION['error']);
 	}
 
 	return $error;
@@ -201,4 +202,8 @@ function show_message($message, $type = 'danger') {
 		echo '<div class="alert alert-' . $type . ' alert-dismissible fade show mt-3" role="alert">' . $message;
 		echo '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
 	}
+}
+
+function logged_in() {
+	return isset($_SESSION['user']['id']) && !empty($_SESSION['user']['id']);
 }

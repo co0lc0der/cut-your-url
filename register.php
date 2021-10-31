@@ -1,9 +1,9 @@
 <?php
 	require_once 'includes/functions.php';
 
-	if (isset($_SESSION['user']['id'])) redirect(get_url('profile.php'));
+	if (logged_in()) redirect(get_url('profile.php'));
 
-	if (isset($_POST['login']) && isset($_POST['pass']) && isset($_POST['pass2'])) register_user($_POST);
+	if (isset($_POST['login'])) register_user($_POST);
 
 	$login = '';
 	if (isset($_SESSION['login'])) {

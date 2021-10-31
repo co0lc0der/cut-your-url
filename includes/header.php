@@ -1,8 +1,4 @@
-<?php
-require_once 'functions.php';
-
-$logged_in = isset($_SESSION['user']['id']) && !empty($_SESSION['user']['id']);
-?>
+<?php require_once 'functions.php'; ?>
 <!doctype html>
 <html lang="ru">
 <head>
@@ -26,7 +22,7 @@ $logged_in = isset($_SESSION['user']['id']) && !empty($_SESSION['user']['id']);
 					<li class="nav-item">
 						<a class="nav-link active" aria-current="page" href="<?=get_url()?>">Главная</a>
 					</li>
-					<?php if ($logged_in) { ?>
+					<?php if (logged_in()) { ?>
 						<li class="nav-item">
 							<a class="nav-link" href="<?=get_url('profile.php')?>">Профиль</a>
 						</li>
@@ -34,7 +30,7 @@ $logged_in = isset($_SESSION['user']['id']) && !empty($_SESSION['user']['id']);
 				</ul>
 				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 					<li class="nav-item">
-						<?php if ($logged_in) { ?>
+						<?php if (logged_in()) { ?>
 							<a href="<?=get_url('includes/logout.php')?>" class="btn btn-primary">Выйти</a>
 						<?php } else { ?>
 							<a href="<?=get_url('login.php')?>" class="btn btn-primary">Войти</a>

@@ -5,6 +5,7 @@ ini_set('display_errors', 1); // дает команду интерпретат�
 define('SITE_NAME', "Cut your URL");
 define('HOST', "http://{$_SERVER['HTTP_HOST']}"); // http сервер
 // define('HOST', "http://{$_SERVER['HTTP_HOST']}/cut_your_url"); // если в подпапке cut_your_url
+define ('PAGE_NOT_FOUND', '404.php');
 define('DB_HOST', "127.0.0.1"); // сервер БД
 define('DB_NAME', "cut_url"); // имя БД
 define('DB_USER', "root"); // логин к БД

@@ -1,6 +1,6 @@
 <?php
 	require_once 'includes/functions.php';
-	if (!isset($_SESSION['user']['id'])) redirect();
+	if (!logged_in()) redirect();
 
 	$error = get_error_message();
 	$success = get_success_message();

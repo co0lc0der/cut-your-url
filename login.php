@@ -1,14 +1,14 @@
 <?php
 	require_once 'includes/functions.php';
 
-	if (isset($_SESSION['user']['id'])) redirect(get_url('profile.php'));
+	if (logged_in()) redirect(get_url('profile.php'));
 
-	if (isset($_POST['login']) && !empty($_POST['login']) && isset($_POST['pass']) && !empty($_POST['pass'])) login($_POST);
+	if (isset($_POST['login'])) login($_POST);
 
 	$login = '';
 	if (isset($_SESSION['login'])) {
 		$login = $_SESSION['login'];
-		$_SESSION['login'] = '';
+		unset($_SESSION['login']);
 	}
 
 	$error = get_error_message();

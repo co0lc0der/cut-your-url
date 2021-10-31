@@ -7,7 +7,7 @@
 
 		if (empty($link)) {
 			http_response_code(404);
-			redirect(get_url('404.php'));
+			redirect(get_url(PAGE_NOT_FOUND));
 		}
 
 		update_views($url);
@@ -17,7 +17,7 @@
 	include 'includes/header.php';
 ?>
 <main class="container">
-	<?php if (!$logged_in) { ?>
+	<?php if (!logged_in()) { ?>
 		<div class="row mt-5">
 			<div class="col">
 				<h2 class="text-center">Необходимо <a href="<?=get_url('register.php')?>">зарегистрироваться</a> или <a href="<?=get_url('login.php')?>">войти</a> под своей учетной записью</h2>
