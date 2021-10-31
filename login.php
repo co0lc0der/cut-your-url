@@ -3,37 +3,22 @@
 
 	if (isset($_SESSION['user']['id'])) redirect(get_url('profile.php'));
 
-	if (isset($_POST['login']) && isset($_POST['pass'])) login($_POST);
-
-	include 'includes/header.php';
+	if (isset($_POST['login']) && !empty($_POST['login']) && isset($_POST['pass']) && !empty($_POST['pass'])) login($_POST);
 
 	$login = '';
-	$error = '';
-	$success = '';
 	if (isset($_SESSION['login'])) {
 		$login = $_SESSION['login'];
 		$_SESSION['login'] = '';
 	}
-	if (isset($_SESSION['error']) && !empty($_SESSION['error'])) {
-		$error = $_SESSION['error'];
-		$_SESSION['error'] = '';
-	}
-	if (isset($_SESSION['success']) && !empty($_SESSION['success'])) {
-		$success = $_SESSION['success'];
-		$_SESSION['success'] = '';
-	}
+
+	$error = get_error_message();
+	$success = get_success_message();
+
+	include_once 'includes/header.php';
 ?>
 	<main class="container">
-		<?php if (!empty($success)) { ?>
-			<div class="alert alert-success alert-dismissible fade show mt-3" role="alert"><?=$success?>
-				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-			</div>
-		<?php } ?>
-		<?php if (!empty($error)) { ?>
-			<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert"><?=$error?>
-				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-			</div>
-		<?php } ?>
+		<?php show_message($success, 'success'); ?>
+		<?php show_message($error); ?>
 		<div class="row mt-5">
 			<div class="col">
 				<h2 class="text-center">Вход в личный кабинет</h2>

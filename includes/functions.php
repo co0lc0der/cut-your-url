@@ -175,3 +175,30 @@ function add_link($user_id, $link) {
 	$short_link = generate_string();
 	return db_query("INSERT INTO `links` (`id`, `user_id`, `long_link`, `short_link`, `views`) VALUES (NULL, ?, ?, ?, '0');", [$user_id, $link, $short_link]);
 }
+
+function get_success_message() {
+	$success = '';
+	if (isset($_SESSION['success']) && !empty($_SESSION['success'])) {
+		$success = $_SESSION['success'];
+		$_SESSION['success'] = '';
+	}
+
+	return $success;
+}
+
+function get_error_message() {
+	$error = '';
+	if (isset($_SESSION['error']) && !empty($_SESSION['error'])) {
+		$error = $_SESSION['error'];
+		$_SESSION['error'] = '';
+	}
+
+	return $error;
+}
+
+function show_message($message, $type = 'danger') {
+	if (!empty($message)) {
+		echo '<div class="alert alert-' . $type . ' alert-dismissible fade show mt-3" role="alert">' . $message;
+		echo '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+	}
+}

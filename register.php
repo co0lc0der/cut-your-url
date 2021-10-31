@@ -5,26 +5,20 @@
 
 	if (isset($_POST['login']) && isset($_POST['pass']) && isset($_POST['pass2'])) register_user($_POST);
 
-	include 'includes/header.php';
-
 	$login = '';
 	if (isset($_SESSION['login'])) {
 		$login = $_SESSION['login'];
 		$_SESSION['login'] = '';
 	}
 
-	$error = '';
-	if (isset($_SESSION['error']) && !empty($_SESSION['error'])) {
-		$error = $_SESSION['error'];
-		$_SESSION['error'] = '';
-	}
+	$error = get_error_message();
+	$success = get_success_message();
+
+	include_once 'includes/header.php';
 ?>
 	<main class="container">
-		<?php if (!empty($error)) { ?>
-			<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert"><?=$error?>
-				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-			</div>
-		<?php } ?>
+		<?php show_message($success, 'success'); ?>
+		<?php show_message($error); ?>
 		<div class="row mt-5">
 			<div class="col">
 				<h2 class="text-center">Регистрация</h2>
