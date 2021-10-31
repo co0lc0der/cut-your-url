@@ -1,7 +1,7 @@
 <?php
 	require_once 'includes/functions.php';
 
-	if (isset($_SESSION['user']['id'])) header('Location: /profile.php');
+	if (isset($_SESSION['user']['id'])) redirect(get_url('profile.php'));
 
 	if (isset($_POST['login']) && isset($_POST['pass'])) login($_POST);
 
@@ -37,7 +37,7 @@
 		<div class="row mt-5">
 			<div class="col">
 				<h2 class="text-center">Вход в личный кабинет</h2>
-				<p class="text-center">Если вы еще не зарегистрированы, то самое время <a href="<?=get_url('/register.php')?>">зарегистрироваться</a></p>
+				<p class="text-center">Если вы еще не зарегистрированы, то самое время <a href="<?=get_url('register.php')?>">зарегистрироваться</a></p>
 			</div>
 		</div>
 		<div class="row mt-3">

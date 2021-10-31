@@ -1,5 +1,5 @@
 <?php
-	if(isset($_GET['url']) && !empty($_GET['url'])) {
+	if (isset($_GET['url']) && !empty($_GET['url'])) {
 		require_once 'includes/functions.php';
 
 		$url = strtolower(trim($_GET['url']));
@@ -7,22 +7,20 @@
 
 		if (empty($link)) {
 			http_response_code(404);
-			header('Location: 404.php');
-			die;
+			redirect(get_url('404.php'));
 		}
 
 		update_views($url);
-		header('Location: ' . $link['long_link']);
-		die;
+		redirect($link['long_link']);
 	}
 
 	include 'includes/header.php';
 ?>
 <main class="container">
-	<?php if (!isset($_SESSION['user']['id'])) { ?>
+	<?php if (!$logged_in) { ?>
 		<div class="row mt-5">
 			<div class="col">
-				<h2 class="text-center">Необходимо <a href="<?=get_url('/register.php')?>">зарегистрироваться</a> или <a href="<?=get_url('/login.php')?>">войти</a> под своей учетной записью</h2>
+				<h2 class="text-center">Необходимо <a href="<?=get_url('register.php')?>">зарегистрироваться</a> или <a href="<?=get_url('login.php')?>">войти</a> под своей учетной записью</h2>
 			</div>
 		</div>
 	<?php } ?>

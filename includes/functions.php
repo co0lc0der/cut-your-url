@@ -2,7 +2,12 @@
 require_once 'config.php';
 
 function get_url($page = '') {
-	return HOST . $page;
+	return HOST . "/$page";
+}
+
+function redirect($link = HOST) {
+	header("Location: $link");
+	die;
 }
 
 function db() {
@@ -66,8 +71,7 @@ function get_user_info($login) {
 function login($auth_data) {
 	if (empty($auth_data) || !isset($auth_data['login']) || empty($auth_data['login']) || !isset($auth_data['pass']) || empty($auth_data['pass'])) {
 		$_SESSION['error'] = "Логин или пароль не может быть пустым";
-		header('Location: ' . get_url('login.php'));
-		die;
+		redirect(get_url('login.php'));
 	}
 
 	$user = get_user_info($auth_data['login']);
@@ -75,21 +79,18 @@ function login($auth_data) {
 	if (empty($user)) {
 		$_SESSION['login'] = $auth_data['login'];
 		$_SESSION['error'] = "Пользователь '{$auth_data['login']}' не найден";
-		header('Location: /login.php');
-		die;
+		redirect(get_url('login.php'));
 	}
 
 	if (password_verify($auth_data['pass'], $user['pass'])) {
 		$_SESSION['user'] = $user;
 
 		$_SESSION['error'] = '';
-		header('Location: /profile.php');
-		die;
+		redirect(get_url('profile.php'));
 	} else {
 		$_SESSION['login'] = $auth_data['login'];
 		$_SESSION['error'] = 'Неверный пароль';
-		header('Location: /login.php');
-		die;
+		redirect(get_url('login.php'));
 	}
 }
 
@@ -107,20 +108,17 @@ function register_user($auth_data) {
 
 	if (!empty($user)) {
 		$_SESSION['error'] = "Пользователь '{$auth_data['login']}' уже существует";
-		header('Location: /register.php');
-		die;
+		redirect(get_url('register.php'));
 	}
 
 	if ($auth_data['pass'] !== $auth_data['pass2']) {
 		$_SESSION['error'] = "Пароли не совпадают";
-		header('Location: /register.php');
-		die;
+		redirect(get_url('register.php'));
 	}
 
 	if (add_user($auth_data['login'], $auth_data['pass'])) {
 		$_SESSION['success'] = 'Регистрация прошла успешно!';
-		header('Location: /login.php');
-		die;
+		redirect(get_url('login.php'));
 	}
 
 	return true;
@@ -135,6 +133,7 @@ function get_user_links($user_id) {
 function delete_link($id) {
 	if (empty($id)) return false;
 
+	$_SESSION['success'] = 'Ссылка успешно удалена';
 	return db_query("DELETE FROM `links` WHERE `id` = ?;", [$id]);
 }
 

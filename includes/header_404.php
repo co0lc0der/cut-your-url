@@ -1,8 +1,4 @@
-<?php
-require_once 'functions.php';
-
-$logged_in = isset($_SESSION['user']['id']) && !empty($_SESSION['user']['id']);
-?>
+<?php require_once 'functions.php'; ?>
 <!doctype html>
 <html lang="ru">
 <head>
@@ -11,7 +7,7 @@ $logged_in = isset($_SESSION['user']['id']) && !empty($_SESSION['user']['id']);
 	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
-	<title><?=SITE_NAME?></title>
+	<title><?=SITE_NAME?> - 404 Not found</title>
 </head>
 <body>
 <header>
@@ -26,19 +22,10 @@ $logged_in = isset($_SESSION['user']['id']) && !empty($_SESSION['user']['id']);
 					<li class="nav-item">
 						<a class="nav-link active" aria-current="page" href="<?=get_url()?>">Главная</a>
 					</li>
-					<?php if ($logged_in) { ?>
-						<li class="nav-item">
-							<a class="nav-link" href="<?=get_url('profile.php')?>">Профиль</a>
-						</li>
-					<?php } ?>
 				</ul>
 				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 					<li class="nav-item">
-						<?php if ($logged_in) { ?>
-							<a href="<?=get_url('includes/logout.php')?>" class="btn btn-primary">Выйти</a>
-						<?php } else { ?>
-							<a href="<?=get_url('login.php')?>" class="btn btn-primary">Войти</a>
-						<?php } ?>
+						<a href="<?=get_url('login.php')?>" class="btn btn-primary">Войти</a>
 					</li>
 				</ul>
 			</div>
